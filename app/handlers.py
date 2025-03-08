@@ -7,8 +7,11 @@ import json
 import app.kaybaerd as kb
 
 router = Router()
+text = ''
+with open("Scene.json", "r") as file:
+    text = file.read()
 
-json_data = json.load
+json_data = json.loads(text)
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
@@ -18,7 +21,7 @@ async def cmd_start(message: Message):
 async def echo_message(message: Message):
     await message.answer(message.text)
 
-@router.message(F.text)
+@router.message(F.text in )
 async def get_buttons(message: Message):
     user_text = message.text.strip()
     response_text = None
@@ -30,5 +33,3 @@ async def get_buttons(message: Message):
                 break
         if response_text:
             break
-
-
