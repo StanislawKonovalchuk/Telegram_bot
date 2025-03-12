@@ -3,33 +3,24 @@ from aiogram import Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 import json
-
-import app.kaybaerd as kb
+import app.keyboard as kb
 
 router = Router()
-text = ''
-with open("Scene.json", "r") as file:
-    text = file.read()
+scene = dict()
 
-json_data = json.loads(text)
+with open("buttons.json", "r") as file:
+    text = file.read()
+    scene.update(json.loads(text))
+    print(scene)
+    
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
     await message.reply(f'Hallo', reply_markup=kb.main)
 
-@router.message() 
-async def echo_message(message: Message):
-    await message.answer(message.text)
-
-@router.message(F.text in )
+@router.message(F.text.in_(scene.keys()))
 async def get_buttons(message: Message):
     user_text = message.text.strip()
-    response_text = None
-    
-    for category in json_data["buttons"]:
-        for key, value in category.items():
-            if user_text in value:
-                response_text = value[user_text]["response"]
-                break
-        if response_text:
-            break
+    vals = scene[user_text]
+    keyboard = await kb.inline_vals(vals[1])
+    await message.reply(vals[0], reply_markup=keyboard)
