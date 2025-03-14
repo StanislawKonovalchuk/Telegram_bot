@@ -6,11 +6,12 @@ import json
 import app.keyboard as kb
 
 router = Router()
-text = ''
-with open("Scene.json", "r") as file:
-    text = file.read()
+scene = dict()
 
-json_data = json.loads(text)
+with open("buttons.json", "r") as file:
+     text = file.read()
+     scene.update(json.loads(text))
+     print(scene)
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
