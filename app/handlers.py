@@ -7,11 +7,11 @@ import json
 import app.kaybaerd as kb
 
 router = Router()
-text = ''
+scene =dict
 with open("Scene.json", "r") as file:
     text = file.read()
-
-json_data = json.loads(text)
+    json_data = json.loads(text)
+    
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
